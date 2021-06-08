@@ -5,7 +5,6 @@
         <user-profile-card v-if="!edit" :user="user"/>
         <user-profile-card-editor v-else :user="user" />
       </div>
-
       <div class="col-7 push-top">
         <div class="profile-header">
           <span class="text-lead">
