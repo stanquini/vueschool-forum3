@@ -1,6 +1,6 @@
 <template>
 <div class="col-full push-top">
-  <h1>Create new thread in <i>{{ forum.name }}</i></h1>
+  <h1>Editing <i>{{ thread.title }}</i></h1>
   <ThreadEditor @save="save" @cancel="cancel" />
 </div>
 </template>
@@ -12,11 +12,16 @@ export default {
   name: 'ThreadCreate',
   components: { ThreadEditor },
   props: {
-    forumId: { type: String, required: true }
+    threadId: { type: String, required: true }
   },
   computed: {
-    forum () {
-      return this.$store.state.forums.find(forum => forum.id === this.forumId)
+    thread () {
+      return this.$store.state.thread.find(thread => thread.id === this.threadId)
+    },
+    text () {
+      return this.$store.state.post.find(
+        post => post.id === this.thread.post[0]
+      )
     }
   },
   methods: {
