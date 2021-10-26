@@ -21,6 +21,7 @@ export default {
   },
   methods: {
     async save ({ title, text }) {
+      console.log('ddd')
       const thread = await this.$store.dispatch('createThread', {
         forumId: this.forum.id,
         title,

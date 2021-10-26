@@ -1,7 +1,7 @@
 <template>
 <div class="col-full push-top">
   <h1>Editing <i>{{ thread.title }}</i></h1>
-  <ThreadEditor @save="save" @cancel="cancel" />
+  <ThreadEditor :title="thread.title" :text="text" @save="save" @cancel="cancel" />
 </div>
 </template>
 
@@ -12,29 +12,29 @@ export default {
   name: 'ThreadCreate',
   components: { ThreadEditor },
   props: {
-    threadId: { type: String, required: true }
+    id: { type: String, required: true }
   },
   computed: {
     thread () {
-      return this.$store.state.thread.find(thread => thread.id === this.threadId)
+      return this.$store.state.threads.find(thread => thread.id === this.id)
     },
     text () {
-      return this.$store.state.post.find(
-        post => post.id === this.thread.post[0]
-      )
+      return this.$store.state.posts.find(
+        post => post.id === this.thread.posts[0]
+      ).text
     }
   },
   methods: {
     async save ({ title, text }) {
-      const thread = await this.$store.dispatch('createThread', {
-        forumId: this.forum.id,
+      const thread = await this.$store.dispatch('updateThread', {
+        threadId: this.threadId,
         title,
         text
       })
       this.$router.push({ name: 'ThreadShow', params: { id: thread.id } })
     },
     cancel () {
-      this.$router.push({ name: 'Forum', params: { id: this.forum.id } })
+      this.$router.push({ name: 'ThreadShow', params: { id: this.id } })
     }
   }
 }

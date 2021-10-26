@@ -8,6 +8,7 @@ import sourceData from '@/data.json'
 import Forum from '@/pages/Forum'
 import Category from '@/pages/Category'
 import Profile from '@/pages/Profile'
+import ThreadEdit from '@/pages/ThreadEdit'
 
 const routes = [
   {
@@ -65,6 +66,12 @@ const routes = [
     path: '/form/:forumId/thread/create',
     name: 'ThreadCreate',
     component: ThreadCreate,
+    props: true
+  },
+  {
+    path: '/thread/:id/edit',
+    name: 'ThreadEdit',
+    component: ThreadEdit,
     props: true
   },
   {
