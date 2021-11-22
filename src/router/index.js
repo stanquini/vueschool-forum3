@@ -1,14 +1,12 @@
-import { createRouter, createWebHistory } from 'vue-router'
-
-import Home from '@/pages/Home'
-import ThreadShow from '@/pages/ThreadShow'
-import ThreadCreate from '@/pages/ThreadCreate'
-import NotFound from '@/pages/NotFound'
-import sourceData from '@/data.json'
-import Forum from '@/pages/Forum'
 import Category from '@/pages/Category'
+import Forum from '@/pages/Forum'
+import Home from '@/pages/Home'
+import NotFound from '@/pages/NotFound'
 import Profile from '@/pages/Profile'
+import ThreadCreate from '@/pages/ThreadCreate'
 import ThreadEdit from '@/pages/ThreadEdit'
+import ThreadShow from '@/pages/ThreadShow'
+import { createRouter, createWebHistory } from 'vue-router'
 
 const routes = [
   {
@@ -44,23 +42,23 @@ const routes = [
     path: '/thread/:id',
     name: 'ThreadShow',
     component: ThreadShow,
-    props: true,
-    beforeEnter (to, from, next) {
-      // check if thread exists
-      const threadExists = sourceData.threads.find(thread => thread.id === to.params.id)
-      // if exists continue
-      if (threadExists) {
-        return next()
-      } else {
-        next({
-          name: 'NotFound',
-          params: { pathMach: to.path.substring(1).split('/') },
-          // preserve existing query and hash
-          query: to.query,
-          hash: to.hash
-        })
-      }
-    }
+    props: true
+    // beforeEnter (to, from, next) {
+    //   // check if thread exists
+    //   const threadExists = sourceData.threads.find(thread => thread.id === to.params.id)
+    //   // if exists continue
+    //   if (threadExists) {
+    //     return next()
+    //   } else {
+    //     next({
+    //       name: 'NotFound',
+    //       params: { pathMach: to.path.substring(1).split('/') },
+    //       // preserve existing query and hash
+    //       query: to.query,
+    //       hash: to.hash
+    //     })
+    //   }
+    // }
   },
   {
     path: '/form/:forumId/thread/create',

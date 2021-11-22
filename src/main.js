@@ -1,7 +1,11 @@
+import firebaseConfig from '@/config/firebase'
 import router from '@/router'
 import store from '@/store'
+import firebase from 'firebase/app'
 import { createApp } from 'vue'
 import App from './App.vue'
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig)
 
 const forumApp = createApp(App)
 forumApp.use(router)
@@ -18,4 +22,5 @@ requireComponent.keys().forEach(function (fileName) {
   )
   forumApp.component(baseComponentName, baseComponentConfig)
 })
+
 forumApp.mount('#app')

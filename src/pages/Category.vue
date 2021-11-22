@@ -1,5 +1,5 @@
 <template>
-  <h1>{{ category.name }}</h1>
+  <h1 >{{ category.name }}</h1>
   <ForumList
     :title="category.name"
     :forums="getForumsForCategory(category)"
@@ -19,8 +19,12 @@ export default {
   },
   computed: {
     category () {
-      return this.$store.state.categories.find(category => category.id === this.id)
+      return this.$store.state.categories.find(category => category.id === this.id) || {}
     }
+  },
+  async created () {
+    const category = await this.$store.dispatch('fetchCategory', { id: this.id })
+    this.$store.dispatch('fetchForums', { ids: category.forums })
   },
   methods: {
     getForumsForCategory (category) {
@@ -29,7 +33,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-
-</style>
