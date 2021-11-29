@@ -6,12 +6,22 @@
 </template>
 
 <script>
-
+import { mapActions } from 'vuex'
 import TheNavbar from '@/components/TheNavbar'
 
 export default {
   name: 'App',
-  components: { TheNavbar }
+
+  components: { TheNavbar },
+
+  created () {
+    this.fetchAuthUser({ id: this.$store.state.authUser })
+  },
+
+  methods: {
+    ...mapActions(['fetchAuthUser'])
+  }
+
 }
 </script>
 

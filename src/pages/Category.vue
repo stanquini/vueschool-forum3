@@ -7,26 +7,35 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+
 import ForumList from '@/components/ForumList'
+import { findById } from '@/helpers'
 
 export default {
   components: { ForumList },
+
   props: {
     id: {
       required: true,
       type: String
     }
   },
+
+  async created () {
+    const category = await this.fetchCategory({ id: this.id })
+    this.fetchForums({ ids: category.forums })
+  },
+
   computed: {
     category () {
-      return this.$store.state.categories.find(category => category.id === this.id) || {}
+      return findById(this.$store.state.categories, this.id) || {}
     }
   },
-  async created () {
-    const category = await this.$store.dispatch('fetchCategory', { id: this.id })
-    this.$store.dispatch('fetchForums', { ids: category.forums })
-  },
+
   methods: {
+    ...mapActions(['fetchCategory', 'fetchForums']),
+
     getForumsForCategory (category) {
       return this.$store.state.forums.filter(forum => forum.categoryId === category.id)
     }

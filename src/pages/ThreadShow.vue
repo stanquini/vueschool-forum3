@@ -26,54 +26,65 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 import PostList from '@/components/PostList'
 import PostEditor from '@/components/PostEditor'
 export default {
   name: 'ThreadShow',
+
   components: {
     PostList,
     PostEditor
   },
+
   props: {
     id: {
       required: true,
       type: String
     }
   },
+
   computed: {
     threads () {
       return this.$store.state.threads
     },
+
     posts () {
       return this.$store.state.posts
     },
+
     thread () {
       return this.$store.getters.thread(this.id)
     },
+
     threadPosts () {
       return this.posts.filter(post => post.threadId === this.id)
     }
   },
+
   async created () {
     // fetch the thread
     const thread = await this.$store.dispatch('fetchThread', { id: this.id })
 
     // fetch the user
-    this.$store.dispatch('fetchUser', { id: thread.userId })
+    this.fetchUser({ id: thread.userId })
 
     // fetch the posts
-    const posts = await this.$store.dispatch('fetchPosts', { ids: thread.posts })
+    const posts = await this.fetchPosts({ ids: thread.posts })
     // fetch the users associated with the posts
-    const users = posts.map(post => post.userId)
-    this.$store.dispatch('fetchUsers', { ids: users })
+    const users = posts.map(post => post.userId).concat(thread.userId)
+    this.fetchUsers({ ids: users })
   },
+
   methods: {
+    ...mapActions(['fetchPosts', 'fetchThread', 'fetchUser', 'createPost', 'fetchUsers']),
+
     addPost (eventData) {
       const post = {
         ...eventData.post,
         threadId: this.id
       }
-      this.$store.dispatch('createPost', post)
+      this.createPost(post)
     }
   }
 }
